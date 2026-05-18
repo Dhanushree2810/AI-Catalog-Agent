@@ -42,10 +42,15 @@ export function Signup() {
     } catch (err) {
       if (err.response?.data?.details) {
         setFieldErrors(err.response.data.details);
-      } else if (err.response?.data?.error) {
-        setError(err.response.data.error);
       } else {
-        setError(t('something_wrong'));
+        const errorData = err.response?.data?.error;
+        if (typeof errorData === 'string') {
+          setError(errorData);
+        } else if (errorData?.message) {
+          setError(errorData.message);
+        } else {
+          setError(t('something_wrong'));
+        }
       }
     } finally {
       setLoading(false);

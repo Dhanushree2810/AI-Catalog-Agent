@@ -31,10 +31,15 @@ export function Alert({
 
   const { bg, text, icon: Icon } = types[type];
 
+  // Safety: ensure message is always a string to prevent React Error #31
+  const displayMessage = typeof message === 'string' 
+    ? message 
+    : message?.message || JSON.stringify(message);
+
   return (
     <div className={`flex items-center p-4 border rounded-lg ${bg} ${className}`}>
       <Icon className={`w-5 h-5 mr-3 flex-shrink-0 ${text}`} />
-      <p className={`flex-1 text-sm ${text}`}>{message}</p>
+      <p className={`flex-1 text-sm ${text}`}>{displayMessage}</p>
       {onClose && (
         <button 
           onClick={onClose}

@@ -37,8 +37,11 @@ export function Login() {
       navigate(from, { replace: true });
     } catch (err) {
       errorKey.current += 1;
-      if (err.response?.data?.error) {
-        setError(err.response.data.error);
+      const errorData = err.response?.data?.error;
+      if (typeof errorData === 'string') {
+        setError(errorData);
+      } else if (errorData?.message) {
+        setError(errorData.message);
       } else {
         setError(t('something_wrong'));
       }
